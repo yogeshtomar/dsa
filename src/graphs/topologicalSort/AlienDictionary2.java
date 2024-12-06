@@ -9,6 +9,8 @@ import java.util.*;
         b -> a          d -> a          a -> c          b -> d
 
         b d a c
+
+
  */
 
 public class AlienDictionary2 {
@@ -21,10 +23,13 @@ public class AlienDictionary2 {
                 inDegree.put(ch, 0);
             }
         }
-
+        int substringCount = 0;
         for (int i = 0; i < words.size() - 1; i++) {
             String s1 = words.get(i);
             String s2 = words.get(i+1);
+            if(s2.contains(s1)) {
+                substringCount += 1;
+            }
             System.out.println("S1 : " + s1 + ", S2 : " + s2);
             int len = Math.min(s1.length(), s2.length());
             for (int ptr = 0; ptr < len; ptr++) {
@@ -51,6 +56,7 @@ public class AlienDictionary2 {
                 queue.add(ch);
             }
         }
+        System.out.println(queue.toString());
         StringBuilder sb = new StringBuilder();
         while (!queue.isEmpty()) {
             char node = queue.poll();
@@ -63,11 +69,24 @@ public class AlienDictionary2 {
                 }
             }
         }
+
+        if (sb.length() != adj.size()) {
+            System.out.println("Cycle detected in the graph");
+            return "";
+        }
+        System.out.println("Substring count : " + substringCount);
+        System.out.println("words count : " + words.size());
+        if (substringCount > 0 && substringCount == words.size() - 2) {
+            return "";
+        }
         return sb.toString();
     }
 
     public static void main(String[] args) {
-        List<String> dict =  new ArrayList<>(Arrays.asList("baa", "abcd", "abca", "cab", "cad"));
+//        List<String> dict =  new ArrayList<>(Arrays.asList("baa", "abcd", "abca", "cab", "cad"));
+//        List<String> dict = new ArrayList<>(Arrays.asList("mdx","mars","avgd","dkae"));
+//        List<String> dict = new ArrayList<>(Arrays.asList("m","mx","mxe","mxer","mxerl","mxerlo","mxerlos","mxerlost","mxerlostr","mxerlostrpq","mxerlostrp"));
+        List<String> dict =  new ArrayList<>(Arrays.asList("vlocltwjavhbwxxzz","fgeovzarq"));
         String result = findOrder(dict);
         for (int i = 0; i < result.length(); i++) {
             System.out.print(result.charAt(i) + " ");
